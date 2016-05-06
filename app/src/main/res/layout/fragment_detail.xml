@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:text="Movie title goes here"
+            android:text="@string/movie_title_goes_here"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#F08C35" />
 
@@ -30,7 +30,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/tvTitle"
-            android:layout_margin="10dp" />
+            android:layout_margin="10dp"
+            android:contentDescription="@string/image_content_movie_poster"/>
 
         <TextView
             android:id="@+id/textView"
@@ -50,7 +51,7 @@
             android:layout_alignLeft="@+id/textView"
             android:layout_alignStart="@+id/textView"
             android:layout_below="@+id/textView"
-            android:text="Date goes here" />
+            android:text="@string/date_goes_here" />
 
         <TextView
             android:id="@+id/textView2"
@@ -70,7 +71,7 @@
             android:layout_alignLeft="@+id/textView2"
             android:layout_alignStart="@+id/textView2"
             android:layout_below="@+id/textView2"
-            android:text="Rating goes here" />
+            android:text="@string/rating_goes_here" />
 
         <TextView
             android:id="@+id/textView3"
@@ -90,7 +91,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textView3"
-            android:text="Plot synopsis goes here" />
+            android:text="@string/plot_synopsis_goes_here" />
     </RelativeLayout>
 
 
