@@ -102,9 +102,6 @@ public class MovieDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
             mMovie = getArguments().getParcelable(ARG_ITEM_ID);
         }
     }
@@ -116,10 +113,7 @@ public class MovieDetailFragment extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
-        // Show the dummy content as text in a TextView.
         if (mMovie != null) {
-            // ((ScrollView) rootView.findViewById(R.id.movie_detail)).setText(mItem.details);
-
             populateWidgets(mMovie, rootView);
             fetchReviewsAndTrailers(mMovie);
         }

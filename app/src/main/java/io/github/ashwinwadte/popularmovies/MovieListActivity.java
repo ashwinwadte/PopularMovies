@@ -61,6 +61,7 @@ public class MovieListActivity extends AppCompatActivity {
         mPosterAdapter = new PosterAdapter(MovieListActivity.this, new ArrayList<Movie>());
         mProgressBar = (ProgressBar) findViewById(R.id.pb_movies_list);
 
+        assert mGridView != null;
         mGridView.setEmptyView(findViewById(android.R.id.empty));
         mGridView.setAdapter(mPosterAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

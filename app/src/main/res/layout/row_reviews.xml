@@ -10,12 +10,12 @@
         style="@style/TextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reviewer`s name" />
+        android:text="@string/reviewer_name" />
 
     <TextView
         android:id="@+id/tvReview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="review text goes here"
+        android:text="@string/review_text_goes_here"
         android:textSize="14sp" />
 </LinearLayout>

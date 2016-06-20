@@ -42,4 +42,7 @@
     </string-array>
     <string name="title_movie_list">Movies</string>
     <string name="title_movie_detail">Movie Detail</string>
+    <string name="no_movies">No Movies</string>
+    <string name="reviewer_name">Reviewer`s name</string>
+    <string name="review_text_goes_here">review text goes here</string>
 </resources>
