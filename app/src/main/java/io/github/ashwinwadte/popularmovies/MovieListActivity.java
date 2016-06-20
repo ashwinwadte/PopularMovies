@@ -1,81 +1,117 @@
-package io.github.ashwinwadte.popularmovies.fragments;
+package io.github.ashwinwadte.popularmovies;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
-import io.github.ashwinwadte.popularmovies.BuildConfig;
-import io.github.ashwinwadte.popularmovies.DetailActivity;
-import io.github.ashwinwadte.popularmovies.R;
 import io.github.ashwinwadte.popularmovies.adapters.PosterAdapter;
 import io.github.ashwinwadte.popularmovies.asynctasks.FetchMoviesTask;
 import io.github.ashwinwadte.popularmovies.interfaces.TheMovieDbApi;
 import io.github.ashwinwadte.popularmovies.models.Movie;
 import io.github.ashwinwadte.popularmovies.models.Movies;
-import io.github.ashwinwadte.popularmovies.utils.Constants;
 import io.github.ashwinwadte.popularmovies.utils.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A placeholder fragment containing a simple view.
+ * An activity representing a list of Movies. This activity
+ * has different presentations for handset and tablet-size devices. On
+ * handsets, the activity presents a list of items, which when touched,
+ * lead to a {@link MovieDetailActivity} representing
+ * item details. On tablets, the activity presents the list of items and
+ * item details side-by-side using two vertical panes.
  */
-public class MainActivityFragment extends Fragment {
-    public static final String LOG_TAG = MainActivityFragment.class.getSimpleName();
+public class MovieListActivity extends AppCompatActivity {
 
     SharedPreferences pref;
-
+    Toolbar toolbar;
+    /**
+     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
+     * device.
+     */
+    private boolean mTwoPane;
     private ProgressBar mProgressBar;
     private PosterAdapter mPosterAdapter;
 
-    public MainActivityFragment() {
-    }
-
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.activity_movie_list);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(getTitle());
 
 
-        GridView mGridView = (GridView) rootView.findViewById(R.id.gv_movie_posters);
+        GridView mGridView = (GridView) findViewById(R.id.gv_movie_posters);
 
-        mPosterAdapter = new PosterAdapter(getContext(), new ArrayList<Movie>());
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.pb_movies_list);
+        mPosterAdapter = new PosterAdapter(MovieListActivity.this, new ArrayList<Movie>());
+        mProgressBar = (ProgressBar) findViewById(R.id.pb_movies_list);
 
-        mGridView.setEmptyView(rootView.findViewById(android.R.id.empty));
+        mGridView.setEmptyView(findViewById(android.R.id.empty));
         mGridView.setAdapter(mPosterAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Movie movie = mPosterAdapter.getItem(position);
 
-                Intent intent = new Intent(getActivity(), DetailActivity.class)
-                        .putExtra(Constants.EXTRA_MOVIE, movie);
+                if (mTwoPane) {
+                    Bundle arguments = new Bundle();
+                    arguments.putParcelable(MovieDetailFragment.ARG_ITEM_ID, movie);
+                    MovieDetailFragment fragment = new MovieDetailFragment();
+                    fragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.movie_detail_container, fragment)
+                            .commit();
+                } else {
+                    Context context = view.getContext();
+                    Intent intent = new Intent(context, MovieDetailActivity.class);
+                    intent.putExtra(MovieDetailFragment.ARG_ITEM_ID, movie);
 
-                startActivity(intent);
+                    context.startActivity(intent);
+                }
             }
         });
 
-        pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        pref = PreferenceManager.getDefaultSharedPreferences(MovieListActivity.this);
 
-        return rootView;
+
+        if (findViewById(R.id.movie_detail_container) != null) {
+            // The detail container view will be present only in the
+            // large-screen layouts (res/values-w900dp).
+            // If this view is present, then the
+            // activity should be in two-pane mode.
+            mTwoPane = true;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -98,7 +134,7 @@ public class MainActivityFragment extends Fragment {
         //user chose favorite sort order. Show favorite movies of the user
         if (sortOrder.equals(sortOrderArray[2])) {
             title = titleArray[2];
-            FetchMoviesTask task = new FetchMoviesTask(getContext(), mPosterAdapter, mProgressBar);
+            FetchMoviesTask task = new FetchMoviesTask(MovieListActivity.this, mPosterAdapter, mProgressBar);
             task.execute();
         } else {
 
@@ -136,7 +172,7 @@ public class MainActivityFragment extends Fragment {
 
         }
 
-        getActivity().setTitle(title + " Movies");
+        toolbar.setTitle(title + " Movies");
 
     }
 }

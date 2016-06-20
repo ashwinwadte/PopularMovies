@@ -1,0 +1,167 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movie_detail"
+    style="?android:attr/textAppearanceLarge"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="io.github.ashwinwadte.popularmovies.MovieDetailFragment"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/movie_title_goes_here"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#F08C35" />
+
+    <ImageView
+        android:id="@+id/iv_poster"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvTitle"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/image_content_movie_poster" />
+
+    <CheckBox
+        android:id="@+id/cbFavorite"
+        style="@style/TextViewStyle.MoreMargin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/iv_poster"
+        android:layout_toEndOf="@+id/iv_poster"
+        android:layout_toRightOf="@+id/iv_poster"
+        android:button="@drawable/selector"
+        android:padding="10dp"
+        android:text="@string/mark_favorite" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/TextViewStyle.PinkColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/cbFavorite"
+        android:layout_alignStart="@+id/cbFavorite"
+        android:layout_below="@+id/cbFavorite"
+        android:text="@string/release_date" />
+
+    <TextView
+        android:id="@+id/tvReleaseDate"
+        style="@style/TextViewStyle.MoreMargin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/textView"
+        android:text="@string/date_goes_here" />
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/TextViewStyle.PinkColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvReleaseDate"
+        android:layout_alignStart="@+id/tvReleaseDate"
+        android:layout_below="@+id/tvReleaseDate"
+        android:text="@string/user_rating" />
+
+    <TextView
+        android:id="@+id/tvUserRating"
+        style="@style/TextViewStyle.MoreMargin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:text="@string/rating_goes_here" />
+
+    <TextView
+        android:id="@+id/textView3"
+        style="@style/TextViewStyle.PinkColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/iv_poster"
+        android:text="@string/plot_synopsis" />
+
+    <TextView
+        android:id="@+id/tvPlotSynopsis"
+        style="@style/TextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView3"
+        android:text="@string/plot_synopsis_goes_here" />
+
+    <TextView
+        android:id="@+id/textView4"
+        style="@style/TextViewStyle.PinkColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvPlotSynopsis"
+        android:layout_marginTop="15dp"
+        android:text="@string/trailers" />
+
+    <ListView
+        android:id="@+id/lvTrailers"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/textView4"
+        android:nestedScrollingEnabled="true"
+        android:scrollbars="vertical" />
+
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView4"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/trailer_check_network_connection"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        style="@style/TextViewStyle.PinkColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/lvTrailers"
+        android:layout_marginTop="15dp"
+        android:text="@string/reviews" />
+
+    <ListView
+        android:id="@+id/lvReviews"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@+id/textView5"
+        android:nestedScrollingEnabled="true"
+        android:scrollbars="vertical" />
+
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView5"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/reviews_check_network_connection"
+        android:textSize="16sp" />
+
+</RelativeLayout>

@@ -1,9 +1,11 @@
-package io.github.ashwinwadte.popularmovies.fragments;
+package io.github.ashwinwadte.popularmovies;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,8 +26,6 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
-import io.github.ashwinwadte.popularmovies.BuildConfig;
-import io.github.ashwinwadte.popularmovies.R;
 import io.github.ashwinwadte.popularmovies.adapters.ReviewAdapter;
 import io.github.ashwinwadte.popularmovies.adapters.TrailerAdapter;
 import io.github.ashwinwadte.popularmovies.asynctasks.AddFavoriteMovieTask;
@@ -43,9 +43,17 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A placeholder fragment containing a simple view.
+ * A fragment representing a single Movie detail screen.
+ * This fragment is either contained in a {@link MovieListActivity}
+ * in two-pane mode (on tablets) or a {@link MovieDetailActivity}
+ * on handsets.
  */
-public class DetailActivityFragment extends Fragment {
+public class MovieDetailFragment extends Fragment {
+    /**
+     * The fragment argument representing the item ID that this fragment
+     * represents.
+     */
+    public static final String ARG_ITEM_ID = "item_id";
 
     static final ButterKnife.Setter<TextView, String[]> TEXT_VIEW_SETTER = new ButterKnife.Setter<TextView, String[]>() {
         @Override
@@ -63,12 +71,16 @@ public class DetailActivityFragment extends Fragment {
     ListView lvReviews;
     @BindView(R.id.lvTrailers)
     ListView lvTrailers;
-    Intent mIntent;
     private ReviewAdapter mReviewAdapter;
     private TrailerAdapter mTrailerAdapter;
     private Movie mMovie;
 
-    public DetailActivityFragment() {
+
+    /**
+     * Mandatory empty constructor for the fragment manager to instantiate the
+     * fragment (e.g. upon screen orientation changes).
+     */
+    public MovieDetailFragment() {
     }
 
     @OnCheckedChanged(R.id.cbFavorite)
@@ -84,17 +96,30 @@ public class DetailActivityFragment extends Fragment {
 
     }
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments().containsKey(ARG_ITEM_ID)) {
+            // Load the dummy content specified by the fragment
+            // arguments. In a real-world scenario, use a Loader
+            // to load content from a content provider.
+            mMovie = getArguments().getParcelable(ARG_ITEM_ID);
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mIntent = getActivity().getIntent();
-
-        View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+        View rootView = inflater.inflate(R.layout.movie_detail, container, false);
 
         ButterKnife.bind(this, rootView);
 
-        if (mIntent != null && mIntent.hasExtra(Constants.EXTRA_MOVIE)) {
-            mMovie = mIntent.getParcelableExtra(Constants.EXTRA_MOVIE);
+        // Show the dummy content as text in a TextView.
+        if (mMovie != null) {
+            // ((ScrollView) rootView.findViewById(R.id.movie_detail)).setText(mItem.details);
+
             populateWidgets(mMovie, rootView);
             fetchReviewsAndTrailers(mMovie);
         }
@@ -196,6 +221,13 @@ public class DetailActivityFragment extends Fragment {
                     Video video = new Video(r.getName(), r.getKey());
                     mTrailerAdapter.add(video);
                 }
+
+                final String YOUTUBE_TRAILER = Constants.YOUTUBE_BASE_URL + mTrailerAdapter.getItem(0).getKey();
+
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+                SharedPreferences.Editor spe = sp.edit();
+                spe.putString(getString(R.string.pref_trailer_link_key), YOUTUBE_TRAILER);
+                spe.apply();
             }
 
             @Override

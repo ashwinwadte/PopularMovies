@@ -19,10 +19,16 @@
 
     <style name="TextViewStyle" parent="TextAppearance.AppCompat">
         <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="TextViewStyle.PinkColor">
         <item name="android:textColor">#CD0E3E</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextViewStyle.MoreMargin">
+        <item name="android:layout_marginBottom">20dp</item>
     </style>
 
 </resources>

@@ -1,13 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movie_list"
+    android:name="io.github.ashwinwadte.popularmovies.MovieListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="0dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context=".fragments.MainActivityFragment"
-    tools:showIn="@layout/activity_main">
+    tools:context="io.github.ashwinwadte.popularmovies.MovieListActivity"
+    tools:listitem="@layout/movie_list_content">
 
     <GridView
         android:id="@+id/gv_movie_posters"
@@ -25,8 +28,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="24sp"
-        android:text="No Movies" />
+        android:text="No Movies"
+        android:textSize="24sp" />
 
     <ProgressBar
         android:id="@+id/pb_movies_list"
@@ -37,3 +40,4 @@
         android:visibility="gone" />
 
 </FrameLayout>
+
